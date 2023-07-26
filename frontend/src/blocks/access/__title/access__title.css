@@ -1,0 +1,19 @@
+.access__title {
+    font-style: normal;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 29px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: #FFFFFF;
+    margin-bottom: 50px;
+}
+
+@media screen and (max-width: 570px) {
+    .access__title {
+        font-size: 18px;
+        line-height: 22px;
+        margin: 25px 22px 75px 22px;
+    }
+}

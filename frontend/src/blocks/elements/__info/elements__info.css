@@ -1,0 +1,9 @@
+.elements__info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 21px;
+    margin-right: 30px;
+    margin-top: 25px;
+    align-items: center;
+}

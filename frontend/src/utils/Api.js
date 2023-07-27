@@ -85,7 +85,7 @@
 
 
 const api = new Api({
-    url: 'https://mesto.nomoreparties.co/v1/cohort-62',
+    url: 'http://api.mesto-practicum.nomoredomains.sbs',
     headers: {
       'content-type': 'application/json',
       authorization: '54af3b55-0841-4bd8-b43e-31656348522b'

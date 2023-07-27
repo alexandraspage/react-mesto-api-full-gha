@@ -24,7 +24,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
 app.use(cookieParser());
 
 app.use(requestLogger);
-app.use('/api', routes);
+app.use(routes);
 
 app.use(errorLogger);
 app.use(errors());

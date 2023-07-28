@@ -9,9 +9,8 @@ const auth = (req, res, next) => {
     return next(new UnauthorizedError());
   }
 
-  const token = authorization.replace('Bearer ', '');
-
   let payload;
+  const token = authorization.replace('Bearer ', '');
 
   try {
     payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
@@ -19,7 +18,7 @@ const auth = (req, res, next) => {
     next(new UnauthorizedError(err));
   }
   req.user = payload;
-  next();
+  return next();
 };
 
 module.exports = auth;

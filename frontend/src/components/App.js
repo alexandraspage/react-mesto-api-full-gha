@@ -49,7 +49,7 @@ function App() {
 
       })
       .catch((err) => { console.log(err) })
-  }, [])
+  }, [loggedIn])
 
   React.useEffect(() => {
     api.getAllCards()
@@ -57,7 +57,7 @@ function App() {
         setCards(data)
       })
       .catch((err) => { console.log(err) })
-  }, [])
+  }, [loggedIn])
 
   function handleEditProfileClick() {
     setEditProfilePopupOpen(true);

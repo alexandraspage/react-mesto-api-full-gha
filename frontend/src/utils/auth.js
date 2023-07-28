@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://auth.nomoreparties.co';
+export const BASE_URL = 'http://api.mesto-practicum.nomoredomains.sbs';
 
 
 function checkResponse(res) {

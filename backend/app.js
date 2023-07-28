@@ -1,11 +1,12 @@
-const cookieParser = require('cookie-parser');
+require('dotenv').config();
+//const cookieParser = require('cookie-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
 const routes = require('./routes');
 const cors = require('cors');
-const cookieSession = require('cookie-session');
+//const cookieSession = require('cookie-session');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { errorHandler } = require('./middlewares/error');
@@ -23,9 +24,9 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
 });
 app.use(cors({
   credentials: true,
-  origin: ['https://mesto-practicum.nomoredomains.xyz', 'http://mesto-practicum.nomoredomains.xyz', 'http://localhost:3000', 'http://localhost:3001'],
+  origin: ['https://mesto-practicum.nomoredomains.xyz', 'http://mesto-practicum.nomoredomains.xyz', 'http://localhost:3000', 'http://localhost:3000', 'http://localhost:3001', 'https://api.mesto-practicum.nomoredomains.sbs'],
 }));
-
+/*
 app.use(
   cookieSession({
     secret: 'yourSecret',
@@ -34,9 +35,9 @@ app.use(
     httpOnly: false,
   }),
 );
-
+*/
 //  app.use(bodyParser.json());
-app.use(cookieParser());
+//app.use(cookieParser());
 
 app.use(requestLogger);
 app.use(routes);

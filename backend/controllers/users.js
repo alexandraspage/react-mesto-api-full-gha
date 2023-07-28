@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jsonWebToken = require('jsonwebtoken');
+const { NODE_ENV, JWT_SECRET } = process.env;
 
 const User = require('../models/user');
 
@@ -72,12 +73,15 @@ const login = (req, res, next) => {
       bcrypt.compare(password, user.password)
         .then((isValidUser) => {
           if (isValidUser) {
-            const jwt = jsonWebToken.sign({
-              _id: user._id,
-            }, 'some-secret-key');
-            res.cookie('jwt', jwt, { maxAge: 7 * 24 * 3600 * 1000, httpOnly: true, sameSite: true });
+            const token = jsonWebToken.sign(
+              {
+                _id: user._id,
+              },
+              NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+              { expiresIn: '7d' },
+            );
 
-            res.send({ data: user });
+            res.send({ token });
           } else {
             return next(new UnauthorizedError('Неправильный логин или пароль'));
           }

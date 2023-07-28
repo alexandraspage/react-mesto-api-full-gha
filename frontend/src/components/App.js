@@ -152,11 +152,12 @@ function App() {
   function handleLoginSubmit({ email, password }) {
     auth.authorize(email, password)
       .then((data) => {
+        console.log(data);
         if (data.token) {
           localStorage.setItem('token', data.token);
           setLoggedIn(true);
           setUserEmail(email);
-          navigate('/main', { replace: true });
+          navigate('/', { replace: true });
 
         }
 
@@ -180,14 +181,14 @@ function App() {
   }
 
   function tokenCheck() {
-    const jwt = localStorage.getItem('token');
+    const jwt = localStorage.getItem('jwt');
     if (jwt) {
       auth.getContent(jwt)
         .then((data) => {
           setLoggedIn(true);
           const user = data.data;
           setUserEmail(user.email);
-          navigate('/main', { replace: true })
+          navigate('/', { replace: true })
         })
         .catch((err) => { console.log(err) })
     }
@@ -199,7 +200,7 @@ function App() {
   }, [])
 
   function signOut() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('jwt');
     setLoggedIn(false);
     setUserEmail('')
   }
@@ -212,7 +213,7 @@ function App() {
           <Routes>
             <Route path="/sign-up" element={<Register title="Регистрация" button="Зарегистрироваться" handleInfoPopup={handleInfoPopup} handleRegister={handleRegisterSubmit} />}></Route>
             <Route path="/sign-in" element={<Login title="Вход" button="Войти" handleLogin={handleLoginSubmit} />}></Route>
-            <Route path="/main" element={<ProtectedRoute loggedIn={loggedIn} element={Main}
+            <Route path="/" element={<ProtectedRoute loggedIn={loggedIn} element={Main}
 
               cards={cards}
               onEditProfile={handleEditProfileClick}

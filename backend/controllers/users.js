@@ -80,8 +80,7 @@ const login = (req, res, next) => {
               NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
               { expiresIn: '7d' },
             );
-
-            res.send({ token });
+            res.send({ jwt: token });
           } else {
             return next(new UnauthorizedError('Неправильный логин или пароль'));
           }

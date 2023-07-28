@@ -96,7 +96,7 @@ const api = new Api({
     url: 'https://api.mesto-practicum.nomoredomains.sbs',
     headers: {
       'content-type': 'application/json',
-    //  authorization: '54af3b55-0841-4bd8-b43e-31656348522b'
+       authorization: `Bearer ${localStorage.getItem('token')}`
     }
   })
 

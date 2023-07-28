@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
 const routes = require('./routes');
+const cors = require('cors');
+const cookieSession = require('cookie-session');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { errorHandler } = require('./middlewares/error');
@@ -19,6 +21,19 @@ const { PORT = 3000 } = process.env;
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true,
 });
+app.use(cors({
+  credentials: true,
+  origin: ['https://mesto-practicum.nomoredomains.xyz', 'http://mesto-practicum.nomoredomains.xyz', 'http://localhost:3000', 'http://localhost:3001'],
+}));
+
+app.use(
+  cookieSession({
+    secret: 'yourSecret',
+    sameSite: false,
+    secure: false,
+    httpOnly: false,
+  }),
+);
 
 //  app.use(bodyParser.json());
 app.use(cookieParser());

@@ -14,7 +14,8 @@
     getInfo() {
         return fetch(`${this._url}/users/me`, {
             method: "GET",
-            headers: this._headers
+            headers: this._headers,
+            credentials: "include"
         })
             .then(this._checkResponse)
     }
@@ -23,6 +24,7 @@
         return fetch(`${this._url}/cards`, {
             method: "GET",
             headers: this._headers,
+            credentials: "include"
         })
             .then(this._checkResponse)
     }
@@ -33,7 +35,8 @@
             body: JSON.stringify({
                 name: data.name,
                 link: data.link
-            })
+            }),
+            credentials: "include"
         })
             .then(this._checkResponse)
     }
@@ -45,7 +48,8 @@
             body: JSON.stringify({
                 name: data.name,
                 about: data.description
-            })
+            }),
+            credentials: "include"
         })
             .then(this._checkResponse)
 
@@ -56,36 +60,40 @@
             headers: this._headers,
             body: JSON.stringify({
                 avatar: data.avatar
-            })
+            }),
+            credentials: "include"
         })
             .then(this._checkResponse)
     }
     putLike(cardId) {
         return fetch(`${this._url}/cards/${cardId}/likes`, {
             method: "PUT",
-            headers: this._headers
+            headers: this._headers,
+            credentials: "include"
         })
             .then(this._checkResponse)
     }
     deleteLike(cardId) {
         return fetch(`${this._url}/cards/${cardId}/likes`, {
             method: "DELETE",
-            headers: this._headers
+            headers: this._headers,
+            credentials: "include"
         })
             .then(this._checkResponse)
     }
     deleteCard(cardId) {
         return fetch(`${this._url}/cards/${cardId}`, {
             method: "DELETE",
-            headers: this._headers
-        })
+            headers: this._headers,
+            credentials: "include"
+        },)
             .then(this._checkResponse)
     }
 }
 
 
 const api = new Api({
-    url: 'http://api.mesto-practicum.nomoredomains.sbs',
+    url: 'https://api.mesto-practicum.nomoredomains.sbs',
     headers: {
       'content-type': 'application/json',
       authorization: '54af3b55-0841-4bd8-b43e-31656348522b'

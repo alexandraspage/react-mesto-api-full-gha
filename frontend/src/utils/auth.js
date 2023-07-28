@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://api.mesto-practicum.nomoredomains.sbs';
+export const BASE_URL = 'https://api.mesto-practicum.nomoredomains.sbs';
 
 
 function checkResponse(res) {
@@ -14,7 +14,8 @@ export function register(email, password) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password }),
+        credentials: 'include',
     })
         .then((res) => checkResponse(res));
 };
@@ -25,7 +26,8 @@ export function authorize(email, password) {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password }),
+        credentials: 'include',
     })
         .then((res) => checkResponse(res));
 }
@@ -36,7 +38,8 @@ export function getContent(jwt) {
         headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${jwt}`
-        }
+        },
+        credentials: 'include',
     })
         .then((res) => checkResponse(res));
 }

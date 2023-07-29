@@ -24,7 +24,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
 });
 app.use(cors({
   credentials: true,
-  origin: ['https://mesto-practicum.nomoredomains.xyz', 'http://mesto-practicum.nomoredomains.xyz', 'http://localhost:3000', 'http://localhost:3000', 'http://localhost:3001', 'https://api.mesto-practicum.nomoredomains.sbs'],
+  origin: ['https://mesto-practicum.nomoredomains.xyz', 'http://mesto-practicum.nomoredomains.xyz', 'http://localhost:3000', 'http://localhost:3000', 'http://localhost:3001', 'https://api.mesto-practicum.nomoredomains.sbs', 'https://practicum.yandex.ru', 'http://practicum.yandex.ru'],
 }));
 /*
 app.use(
@@ -38,6 +38,12 @@ app.use(
 */
 //  app.use(bodyParser.json());
 //app.use(cookieParser());
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.use(requestLogger);
 app.use(routes);

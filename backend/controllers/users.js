@@ -17,6 +17,7 @@ const getUsers = (req, res, next) => {
 };
 
 const getUser = (req, res, next) => {
+  console.log(req.user._id);
   User.findById(req.user._id)
     .orFail(() => new NotFoundError('Not found'))
     .then((user) => res.status(NO_ERROR).send(user))
@@ -24,7 +25,7 @@ const getUser = (req, res, next) => {
 };
 
 const getUserById = (req, res, next) => {
-  User.findById(req.user._id)
+  User.findById(req.params.userId)
     .orFail(() => new NotFoundError('Not found'))
     .then((user) => res.status(NO_ERROR).send(user))
     .catch(next);
@@ -80,7 +81,7 @@ const login = (req, res, next) => {
               NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
               { expiresIn: '7d' },
             );
-            res.send({ jwt: token });
+            res.send({ jwt: token, data: user });
           } else {
             return next(new UnauthorizedError('Неправильный логин или пароль'));
           }

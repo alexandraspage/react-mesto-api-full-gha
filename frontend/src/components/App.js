@@ -39,6 +39,12 @@ function App() {
 
   const navigate = useNavigate();
 
+  React.useEffect(() => {
+    tokenCheck();
+    console.log('token');
+    console.log(loggedIn);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   React.useEffect(() => {
 
@@ -46,18 +52,19 @@ function App() {
       .then((data) => {
 
         setCurrentUser(data);
+      console.log(data);
 
       })
       .catch((err) => { console.log(err) })
-  }, [loggedIn])
+  }, [])
 
   React.useEffect(() => {
     api.getAllCards()
       .then((data) => {
-        setCards(data)
+        setCards(data.reverse())
       })
       .catch((err) => { console.log(err) })
-  }, [loggedIn])
+  }, [loggedIn, cards])
 
   function handleEditProfileClick() {
     setEditProfilePopupOpen(true);
@@ -89,6 +96,10 @@ function App() {
 
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
+    console.log(card);
+   // console.log(card.likes);
+   // console.log(card.likes._id);
+    console.log(currentUser._id);
 
     if (!isLiked) {
       api.putLike(card._id)
@@ -153,10 +164,12 @@ function App() {
     auth.authorize(email, password)
       .then((data) => {
         console.log(data);
-        if (data.token) {
-          localStorage.setItem('token', data.token);
+        if (data) {
+          localStorage.setItem('token', data.jwt);
           setLoggedIn(true);
           setUserEmail(email);
+          setCurrentUser(data.data)
+      //    tokenCheck();
           navigate('/', { replace: true });
 
         }
@@ -181,28 +194,26 @@ function App() {
   }
 
   function tokenCheck() {
-    const jwt = localStorage.getItem('jwt');
-    if (jwt) {
-      auth.getContent(jwt)
+    const token = localStorage.getItem('token');
+    if (token) {
+      auth.getContent(token)
         .then((data) => {
           setLoggedIn(true);
-          const user = data.data;
-          setUserEmail(user.email);
+       //   setCurrentUser(data);
+          console.log(currentUser);
+          
+          setUserEmail(data.email);
           navigate('/', { replace: true })
         })
         .catch((err) => { console.log(err) })
     }
   }
 
-  React.useEffect(() => {
-    tokenCheck();
-
-  }, [])
-
   function signOut() {
-    localStorage.removeItem('jwt');
+    localStorage.removeItem('token');
     setLoggedIn(false);
-    setUserEmail('')
+    setUserEmail('');
+    setCurrentUser({});
   }
 
   return (

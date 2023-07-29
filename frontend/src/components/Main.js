@@ -6,12 +6,13 @@ function Main(props) {
 
     const user = React.useContext(CurrentUserContext);
 
+
     return (
         <>
             <section className="profile">
                 <div className="profile__container">
                     <button className="profile__avatar-button" type="button" onClick={props.onEditAvatar}>
-                        <img className="profile__avatar" src={user.avatar} />
+                        <img className="profile__avatar" src={user.avatar} alt="аватар" />
                     </button>
                     <div className="profile__info">
                         <h1 className="profile__name">{user.name}</h1>

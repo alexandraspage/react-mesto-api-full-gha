@@ -29,7 +29,7 @@ const createCard = (req, res, next) => {
   console.log(req.user._id);
   Card.create({
     ...req.body,
-    owner: req.user._id,
+    owner: req.user,
   })
     .then((cards) => res.status(CREATED).send(cards))
     .catch(next);
@@ -43,6 +43,7 @@ const likeCard = (req, res, next) => {
     { $addToSet: { likes: req.user._id } },
     { new: true, runValidators: true },
   )
+    .populate('likes owner')
     .orFail(() => new NotFoundError('Not found'))
     .then((card) => res.status(NO_ERROR).send(card))
     .catch(next);
@@ -56,6 +57,7 @@ const dislikeCard = (req, res, next) => {
     { $pull: { likes: req.user._id } },
     { new: true, runValidators: true },
   )
+    .populate('likes owner')
     .orFail(() => new NotFoundError('Not found'))
     .then((card) => res.status(NO_ERROR).send(card))
     .catch(next);

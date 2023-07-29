@@ -26,7 +26,6 @@ function Login(props) {
         const { email, password } = formValue;
 
         props.handleLogin({email, password});
-       console.log(document.cookie);
 
     }
 

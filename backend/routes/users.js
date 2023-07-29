@@ -7,9 +7,11 @@ const {
 
 router.get('/users', getUsers);
 
-router.get('/users/:id', celebrate({
+router.get('/users/me', getUser);
+
+router.get('/users/:userId', celebrate({
   params: Joi.object().keys({
-    cardId: Joi.string().length(24).hex().required(),
+    userId: Joi.string().length(24).hex(),
   }),
 }), getUserById);
 
@@ -36,8 +38,6 @@ router.patch('/users/me', celebrate({
     about: Joi.string().min(2).max(30).optional(),
   }),
 }), changeUserInfo);
-
-router.get('/users/me', getUser);
 
 router.patch('/users/me/avatar', celebrate({
   body: Joi.object().keys({

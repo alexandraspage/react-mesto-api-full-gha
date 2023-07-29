@@ -13,7 +13,7 @@ function Header(props) {
         <Routes>
           <Route path="/sign-in" element={<NavLink to="/sign-up" replace className="header__link">Регистрация</NavLink>}></Route>
           <Route path="/sign-up" element={<NavLink to="/sign-in" replace className="header__link">Войти</NavLink>}></Route>
-          <Route path="/main" element={<NavLink to="/sign-in" onClick={props.signOut} replace className="header__link">Выйти</NavLink>}></Route>
+          <Route path="/" element={<NavLink to="/sign-in" onClick={props.signOut} replace className="header__link">Выйти</NavLink>}></Route>
 
         </Routes>
       </div>

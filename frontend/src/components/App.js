@@ -167,6 +167,7 @@ function App() {
         if (data) {
           localStorage.setItem('token', data.jwt);
           setLoggedIn(true);
+          console.log(loggedIn);
           setUserEmail(email);
           setCurrentUser(data.data)
       //    tokenCheck();

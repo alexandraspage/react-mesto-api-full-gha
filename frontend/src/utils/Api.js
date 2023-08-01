@@ -93,7 +93,7 @@
 
 
 const api = new Api({
-    url: 'https://api.mesto-practicum.nomoredomains.sbs',
+    url: 'http://localhost:3000',
     headers: {
       'content-type': 'application/json',
        authorization: `Bearer ${localStorage.getItem('token')}`
@@ -101,3 +101,5 @@ const api = new Api({
   })
 
 export default api;
+
+//https://api.mesto-practicum.nomoredomains.sbs

@@ -17,7 +17,6 @@ const getUsers = (req, res, next) => {
 };
 
 const getUser = (req, res, next) => {
-  console.log(req.user._id);
   User.findById(req.user._id)
     .orFail(() => new NotFoundError('Not found'))
     .then((user) => res.status(NO_ERROR).send(user))

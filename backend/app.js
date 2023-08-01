@@ -44,14 +44,13 @@ app.get('/crash-test', () => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
 });
-
+app.use(helmet());
 app.use(requestLogger);
 app.use(routes);
 
 app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
-app.use(helmet());
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);

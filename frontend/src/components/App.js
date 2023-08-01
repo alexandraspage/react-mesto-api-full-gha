@@ -16,6 +16,8 @@ import Register from './Register.js';
 import ProtectedRoute from './ProtectedRoute.js';
 import * as auth from '../utils/auth.js';
 import { InfoTooltip } from './InfoTooltip';
+import check from '../images/check.svg'
+import cross from '../images/cross.svg'
 
 
 function App() {
@@ -23,6 +25,7 @@ function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
+  
   const [cards, setCards] = React.useState([]);
 
   const [selectedCard, setSelectedCard] = React.useState(null);
@@ -31,18 +34,15 @@ function App() {
 
   const [loggedIn, setLoggedIn] = React.useState(false);
 
-  const [isSignedUp, setSignedUp] = React.useState(false);
-
   const [userEmail, setUserEmail] = React.useState('');
 
   const [isInfoPopupOpen, setInfoPopupOpen] = React.useState(false);
+  const [info, setInfo] = React.useState({text: '', img: ''});
 
   const navigate = useNavigate();
 
   React.useEffect(() => {
     tokenCheck();
-    console.log('token');
-    console.log(loggedIn);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -52,7 +52,6 @@ function App() {
       .then((data) => {
 
         setCurrentUser(data);
-      console.log(data);
 
       })
       .catch((err) => { console.log(err) })
@@ -64,7 +63,7 @@ function App() {
         setCards(data.reverse())
       })
       .catch((err) => { console.log(err) })
-  }, [loggedIn, cards])
+  }, [loggedIn])
 
   function handleEditProfileClick() {
     setEditProfilePopupOpen(true);
@@ -153,6 +152,7 @@ function App() {
   function handleAddPlaceSubmit({ name, link }) {
     api.addCard({ name, link })
       .then((newCard) => {
+        console.log(newCard);
         setCards([newCard, ...cards]);
         closeAllPopups();
       })
@@ -175,19 +175,25 @@ function App() {
         }
 
       })
-      .catch((err) => { console.log(err) })
+      .catch((err) => { 
+        setInfoPopupOpen(true);
+        setInfo({text: 'Что-то пошло не так! Попробуйте ещё раз.', img: cross});
+        console.log(err);
+      })
   }
 
   function handleRegisterSubmit({ email, password }) {
 
     auth.register(email, password)
       .then(() => {
-        setSignedUp(true);
         navigate('/sign-in', { replace: true });
+        setInfoPopupOpen(true);
+        setInfo({text: 'Вы успешно зарегистрировались!', img: check});
       })
       .catch((err) => {
-        setSignedUp(false);
-        console.log(err)
+        setInfoPopupOpen(true);
+        setInfo({text: 'Что-то пошло не так! Попробуйте ещё раз.', img: cross});
+        console.log(err);
       })
 
     handleInfoPopup();
@@ -200,7 +206,7 @@ function App() {
         .then((data) => {
           setLoggedIn(true);
        //   setCurrentUser(data);
-          console.log(currentUser);
+       //   console.log(currentUser);
           
           setUserEmail(data.email);
           navigate('/', { replace: true })
@@ -245,7 +251,7 @@ function App() {
         <ImagePopup card={selectedCard} onClosePopup={closeAllPopups}></ImagePopup>
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
         <PopupWithForm title="Вы уверены?" name="confirm" buttonText="Да" />
-        <InfoTooltip isOpen={isInfoPopupOpen} isSignedUp={isSignedUp} onClosePopup={closeAllPopups}></InfoTooltip>
+        <InfoTooltip isOpen={isInfoPopupOpen} info={info} onClosePopup={closeAllPopups}></InfoTooltip>
       </CurrentUserContext.Provider>
     </>
   );

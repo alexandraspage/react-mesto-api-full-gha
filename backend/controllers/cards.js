@@ -6,7 +6,7 @@ const CREATED = 201;
 
 const getCards = (req, res, next) => {
   Card.find({})
-    .populate('likes owner')
+    .populate('likes')
     .then((cards) => res.status(NO_ERROR).send(cards))
     .catch(next);
 };
@@ -15,7 +15,7 @@ const deleteCard = (req, res, next) => {
   Card.findById(req.params.cardId)
     .orFail(() => new NotFoundError('Not found'))
     .then((card) => {
-      if (!card.owner._id.equals(req.user._id)) {
+      if (!card.owner.equals(req.user._id)) {
         next(new ForbiddenError('Нет прав на удаление'));
       } else {
         Card.deleteOne(card)
@@ -26,10 +26,9 @@ const deleteCard = (req, res, next) => {
 };
 
 const createCard = (req, res, next) => {
-  console.log(req.user._id);
   Card.create({
     ...req.body,
-    owner: req.user,
+    owner: req.user._id,
   })
     .then((cards) => res.status(CREATED).send(cards))
     .catch(next);
@@ -43,7 +42,7 @@ const likeCard = (req, res, next) => {
     { $addToSet: { likes: req.user._id } },
     { new: true, runValidators: true },
   )
-    .populate('likes owner')
+    .populate('likes')
     .orFail(() => new NotFoundError('Not found'))
     .then((card) => res.status(NO_ERROR).send(card))
     .catch(next);
@@ -57,7 +56,7 @@ const dislikeCard = (req, res, next) => {
     { $pull: { likes: req.user._id } },
     { new: true, runValidators: true },
   )
-    .populate('likes owner')
+    .populate('likes')
     .orFail(() => new NotFoundError('Not found'))
     .then((card) => res.status(NO_ERROR).send(card))
     .catch(next);

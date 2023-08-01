@@ -7,8 +7,8 @@ function Card(props) {
   //  console.log(props);
   //  console.log(user._id);
 
-    const isOwner = props.card.owner._id === user._id;
-
+    const isOwner = props.card.owner === user._id;
+    //console.log(props.card);
 
     const isLiked = props.card.likes.some(i => i._id === user._id);
 

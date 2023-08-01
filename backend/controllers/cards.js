@@ -7,7 +7,9 @@ const CREATED = 201;
 const getCards = (req, res, next) => {
   Card.find({})
     .populate('likes')
-    .then((cards) => res.status(NO_ERROR).send(cards))
+    .then((cards) => {
+      console.log(cards);
+    res.status(NO_ERROR).send(cards)})
     .catch(next);
 };
 

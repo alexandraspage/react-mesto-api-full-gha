@@ -42,28 +42,23 @@ function App() {
   const navigate = useNavigate();
 
   React.useEffect(() => {
+    console.log("token");
     tokenCheck();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
-
-    api.getInfo()
-      .then((data) => {
-
-        setCurrentUser(data);
-
+    console.log(loggedIn);
+    if (loggedIn) {
+      Promise.all([api.getAllCards(), api.getInfo()])
+      .then(([cardData, userData]) => {
+        setCards(cardData.reverse());
+        setCurrentUser(userData);
+        
       })
       .catch((err) => { console.log(err) })
-  }, [])
-
-  React.useEffect(() => {
-    api.getAllCards()
-      .then((data) => {
-        setCards(data.reverse())
-      })
-      .catch((err) => { console.log(err) })
-  }, [loggedIn])
+    }
+  }, [loggedIn]);
 
   function handleEditProfileClick() {
     setEditProfilePopupOpen(true);
@@ -163,13 +158,11 @@ function App() {
   function handleLoginSubmit({ email, password }) {
     auth.authorize(email, password)
       .then((data) => {
-        console.log(data);
-        if (data) {
+        if (data.jwt) {
           localStorage.setItem('token', data.jwt);
           setLoggedIn(true);
-          console.log(loggedIn);
           setUserEmail(email);
-          setCurrentUser(data.data)
+         // setCurrentUser(data.data)
       //    tokenCheck();
           navigate('/', { replace: true });
 
